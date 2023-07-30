@@ -3,3 +3,9 @@
 
 # Environment
 .env
+
+/var/
+
+#PHPUnit
+/phpunit.xml
+.phpunit.result.cache
