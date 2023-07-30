@@ -33,25 +33,22 @@ abstract class AbstractAction
     abstract public function handle(): Response;
 
     /**
-     * @param array<string, string> $headers
      * @throws JsonException
      */
-    final protected function json(mixed $payload = null, int $code = 200, array $headers = []): Response
+    final protected function json(mixed $payload = null, int $code = 200): Response
     {
         Assert::notNull($this->response);
 
         $this->response
             ->getBody()
-            ->write(\json_encode($payload, JSON_THROW_ON_ERROR));
+            ->write(\json_encode($payload, JSON_THROW_ON_ERROR))
+        ;
 
-        foreach ($headers as $key => $value) {
-            $this->response
-                ->withHeader($key, $value);
-        }
+        $this->response->withHeader('Content-Type', 'application/json');
 
         return $this->response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($code);
+            ->withStatus($code)
+        ;
     }
 
     protected function getArg(string $name, mixed $default = null): mixed
