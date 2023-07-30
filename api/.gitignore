@@ -1,4 +1,5 @@
-
 # Composer Vendor
 /vendor
 
+# Environment
+.env
