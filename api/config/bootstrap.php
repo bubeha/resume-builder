@@ -8,5 +8,5 @@ if (!class_exists(Dotenv::class)) {
     throw new RuntimeException();
 }
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
 $dotenv->load();

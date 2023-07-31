@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\UI\Http\Rest\Actions\HomeAction;
 use Slim\App;
+use UI\Http\Rest\Actions\HomeAction;
 
 return static function (App $app): void {
     $app->get('/', HomeAction::class);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\UI\Http\Rest\Actions;
 
-use App\UI\Http\Rest\Actions\AbstractAction;
+use UI\Http\Rest\Actions\AbstractAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Tests\WebTestCase;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Http\Rest\Actions;
+namespace UI\Http\Rest\Actions;
 
 use JsonException;
 use Psr\Http\Message\ResponseInterface as Response;
