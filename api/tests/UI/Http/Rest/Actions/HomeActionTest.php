@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\UI\Http\Rest\Actions;
 
 use Tests\WebTestCase;
 
+/**
+ * @internal
+ */
 final class HomeActionTest extends WebTestCase
 {
     public function testHomeResponse(): void
