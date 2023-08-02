@@ -21,7 +21,7 @@ final class UuidTest extends TestCase
         self::assertEquals((string)Uuid::fromString($value), $value);
         self::assertEquals((string)new Uuid($value), $value);
 
-        if (!\Ramsey\Uuid\Uuid::isValid(Uuid::generate())) {
+        if (!\Ramsey\Uuid\Uuid::isValid((string)Uuid::generate())) {
             self::fail('UUid is invalid');
         }
     }
