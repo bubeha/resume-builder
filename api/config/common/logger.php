@@ -24,7 +24,7 @@ return [
         return $logger;
     },
     'logger' => [
-        'level' => getenv('APP_DEBUG') ? Level::Debug : Level::Info,
+        'level' => filter_var(getenv('APP_DEBUG'), FILTER_VALIDATE_BOOL) ? Level::Debug : Level::Info,
         'stream' => getenv('LOG_STREAM'),
     ],
 ];
