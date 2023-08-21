@@ -7,10 +7,19 @@ namespace App\Domain\Entities;
 use App\Domain\ValueObjects\DateTime;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Uuid;
+use App\Infrastructure\Persistence\Doctrine\Generator\UuidGenerator;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\CustomIdGenerator;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
 
+#[Entity, Table(name: 'users')]
 final class User
 {
     public function __construct(
+        #[Id, Column(type: "uuid", unique: true), GeneratedValue(strategy: "CUSTOM"), CustomIdGenerator(class: UuidGenerator::class)]
         private readonly Uuid $id,
         private Email $email,
         private readonly DateTime $registeredAt = new DateTime(

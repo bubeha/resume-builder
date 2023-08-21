@@ -43,3 +43,17 @@ services:
       PHP_IDE_CONFIG: "serverName=docker"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  postgres:
+    image: "postgres:15.4-alpine"
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_NAME}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - api-postgres:/var/lib/postgresql/data
+
+volumes:
+  api-postgres:
