@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\App\Infrastructure\Persistence\Doctrine\Types;
 
 use App\Domain\ValueObjects\Uuid;
@@ -11,7 +13,10 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\TestCase;
 
-class UuidTypeTest extends TestCase
+/**
+ * @internal
+ */
+final class UuidTypeTest extends TestCase
 {
     private Type $type;
     private AbstractPlatform $platform;
@@ -100,7 +105,8 @@ class UuidTypeTest extends TestCase
         $mockObject = $this->createMock(AbstractPlatform::class);
 
         $mockObject->method('getGuidTypeDeclarationSQL')
-            ->willReturn('UUID');
+            ->willReturn('UUID')
+        ;
 
         return $mockObject;
     }

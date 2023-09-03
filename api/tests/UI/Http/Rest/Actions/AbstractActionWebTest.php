@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\UI\Http\Rest\Actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpBadRequestException;
 use Tests\WebTestCase;
 use UI\Http\Rest\Actions\AbstractAction;
 

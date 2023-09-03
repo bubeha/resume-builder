@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Persistence\Doctrine\Types;
 
 use App\Domain\ValueObjects\Email;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\StringType;
+use Throwable;
 
 final class EmailType extends StringType
 {
@@ -20,7 +23,7 @@ final class EmailType extends StringType
         if (\is_string($value)) {
             try {
                 return Email::fromString($value);
-            } catch (\Throwable) {
+            } catch (Throwable) {
             }
         }
 
@@ -48,6 +51,4 @@ final class EmailType extends StringType
     {
         return self::NAME;
     }
-
-
 }

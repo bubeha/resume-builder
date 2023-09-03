@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\App\Infrastructure\Persistence\Doctrine\Generator;
 
 use App\Domain\ValueObjects\Uuid;
@@ -8,6 +10,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Entity;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class UuidGeneratorTest extends TestCase
 {
     public function testUuidGeneratorGenerate(): void

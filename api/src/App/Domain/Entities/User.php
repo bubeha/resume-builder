@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping\Table;
 final class User
 {
     public function __construct(
-        #[Id, Column(type: "uuid", unique: true), GeneratedValue(strategy: "CUSTOM"), CustomIdGenerator(class: UuidGenerator::class)]
+        #[Id, Column(type: 'uuid', unique: true), GeneratedValue(strategy: 'CUSTOM'), CustomIdGenerator(class: UuidGenerator::class)]
         private readonly Uuid $id,
         private Email $email,
         private readonly DateTime $registeredAt = new DateTime(

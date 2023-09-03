@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\App\Infrastructure\Persistence\Doctrine\Types;
 
 use App\Domain\ValueObjects\Email;
@@ -11,7 +13,10 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\TestCase;
 
-class EmailTypeTest extends TestCase
+/**
+ * @internal
+ */
+final class EmailTypeTest extends TestCase
 {
     private Type $type;
     private AbstractPlatform $platform;
@@ -100,7 +105,8 @@ class EmailTypeTest extends TestCase
         $mockObject = $this->createMock(AbstractPlatform::class);
 
         $mockObject->method('getStringTypeDeclarationSQL')
-            ->willReturn('string');
+            ->willReturn('string')
+        ;
 
         return $mockObject;
     }

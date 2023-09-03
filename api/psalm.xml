@@ -24,6 +24,10 @@
         <LessSpecificReturnType errorLevel="info"/>
         <DeprecatedClass errorLevel="info"/>
 
-        <MethodSignatureMismatch errorLevel="info" />
+        <MethodSignatureMismatch errorLevel="info"/>
     </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>

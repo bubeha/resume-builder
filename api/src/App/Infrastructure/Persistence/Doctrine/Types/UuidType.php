@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Persistence\Doctrine\Types;
 
 use App\Domain\ValueObjects\Uuid;
-use Doctrine\DBAL\Types\GuidType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\GuidType;
 use Throwable;
 
-class UuidType extends GuidType
+final class UuidType extends GuidType
 {
-    public const NAME = 'uuid';
+    final public const NAME = 'uuid';
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Uuid
     {

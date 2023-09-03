@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\UI\Http\Rest\Actions;
 
 use Tests\WebTestCase;
 
-class HealthCheckActionTest extends WebTestCase
+/**
+ * @internal
+ */
+final class HealthCheckActionTest extends WebTestCase
 {
     public function testHomeResponse(): void
     {

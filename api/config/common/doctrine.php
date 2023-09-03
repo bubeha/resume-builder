@@ -22,6 +22,7 @@ return [
          *     devMode: bool,
          *     proxyDir: string,
          *     cacheDir: string,
+         *     types: array<string, class-string<Type>>,
          *     connection:array{
          *         port: int,
          *         dbname: string,
@@ -29,7 +30,6 @@ return [
          *         password: string,
          *         charset: string,
          *     },
-         *     types: array<string, class-string<Type>,
          * } $settings
          */
         $settings = $container->get('config')['doctrine'];
