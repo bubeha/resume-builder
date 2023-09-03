@@ -21,8 +21,8 @@ return [
             $callableResolver,
             $responseFactory,
             $config['display_details'],
-            true,
-            true,
+            $config['display_details'],
+            $config['display_details'],
         );
     },
     'config' => [

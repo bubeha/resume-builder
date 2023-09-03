@@ -36,8 +36,6 @@ final class AbstractActionWebTest extends WebTestCase
 
     public function testInvalidArgumentResponse(): void
     {
-        $this->expectException(HttpBadRequestException::class);
-
         $app = $this->getAppInstance();
 
         $testAction = new class() extends AbstractAction {
@@ -52,7 +50,6 @@ final class AbstractActionWebTest extends WebTestCase
 
         $response = $app->handle($request);
 
-        self::assertEquals(201, $response->getStatusCode());
-        self::assertEquals('"result"', (string)$response->getBody());
+        self::assertEquals(400, $response->getStatusCode());
     }
 }
