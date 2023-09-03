@@ -1,0 +1,107 @@
+<?php
+
+namespace Tests\App\Infrastructure\Persistence\Doctrine\Types;
+
+use App\Domain\ValueObjects\Uuid;
+use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
+use DG\BypassFinals;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\Type;
+use PHPUnit\Framework\TestCase;
+
+class UuidTypeTest extends TestCase
+{
+    private Type $type;
+    private AbstractPlatform $platform;
+
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    protected function setUp(): void
+    {
+        BypassFinals::enable();
+
+        if (!Type::hasType(UuidType::NAME)) {
+            Type::addType(UuidType::NAME, UuidType::class);
+        }
+
+        $this->type = Type::getType(UuidType::NAME);
+        $this->platform = $this->getPlatformMock();
+    }
+
+    public function testSqlDeclarationType(): void
+    {
+        self::assertSame('UUID', $this->type->getSQLDeclaration([], $this->platform));
+    }
+
+    /**
+     * @throws ConversionException
+     */
+    public function testConvertToPhpValueShouldReturnNull(): void
+    {
+        self::assertNull($this->type->convertToPHPValue(null, $this->platform));
+    }
+
+    /**
+     * @throws ConversionException
+     */
+    public function testConvertToPhpValueShouldReturnUuidClass(): void
+    {
+        self::assertInstanceOf(Uuid::class, $this->type->convertToPHPValue((string)Uuid::generate(), $this->platform));
+    }
+
+    public function testConvertToPhpValueShouldThrowException(): void
+    {
+        $this->expectException(ConversionException::class);
+
+        $this->type->convertToPHPValue(Uuid::generate(), $this->platform);
+    }
+
+    public function testConvertToPhpValueShouldThrowExceptionWithIncorrectUUID(): void
+    {
+        $this->expectException(ConversionException::class);
+
+        $this->type->convertToPHPValue('incorrect-uuid', $this->platform);
+    }
+
+    /**
+     * @throws ConversionException
+     */
+    public function testConvertToDatabaseValueShouldReturnNull(): void
+    {
+        self::assertNull($this->type->convertToDatabaseValue(null, $this->platform));
+    }
+
+    /**
+     * @throws ConversionException
+     */
+    public function testConvertToDatabaseShouldReturnUuidClass(): void
+    {
+        $uuid = Uuid::generate();
+
+        self::assertSame((string)$uuid, $this->type->convertToDatabaseValue($uuid, $this->platform));
+    }
+
+    public function testConvertToDatabaseShouldThrowException(): void
+    {
+        $this->expectException(ConversionException::class);
+
+        $this->type->convertToDatabaseValue((string)Uuid::generate(), $this->platform);
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    private function getPlatformMock(): AbstractPlatform
+    {
+        $mockObject = $this->createMock(AbstractPlatform::class);
+
+        $mockObject->method('getGuidTypeDeclarationSQL')
+            ->willReturn('UUID');
+
+        return $mockObject;
+    }
+}

@@ -10,16 +10,12 @@ use Throwable;
 
 class UuidType extends GuidType
 {
-    public const TYPE = 'uuid';
+    public const NAME = 'uuid';
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Uuid
     {
         if (empty($value)) {
             return null;
-        }
-
-        if ($value instanceof Uuid) {
-            return $value;
         }
 
         if (\is_string($value)) {
@@ -51,6 +47,6 @@ class UuidType extends GuidType
 
     public function getName(): string
     {
-        return self::TYPE;
+        return self::NAME;
     }
 }
