@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Infrastructure\Persistence\Doctrine\Types\EmailType;
 use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
@@ -74,7 +75,8 @@ return [
             ],
 
             'types' => [
-                UuidType::TYPE => UuidType::class,
+                UuidType::NAME => UuidType::class,
+                EmailType::NAME => EmailType::class,
             ],
         ],
     ],
