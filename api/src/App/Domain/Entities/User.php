@@ -21,7 +21,9 @@ final class User
     public function __construct(
         #[Id, Column(type: 'uuid', unique: true), GeneratedValue(strategy: 'CUSTOM'), CustomIdGenerator(class: UuidGenerator::class)]
         private readonly Uuid $id,
+        #[Column(type: 'email', unique: true)]
         private Email $email,
+        #[Column(type: 'datetime')]
         private readonly DateTime $registeredAt = new DateTime(
         ),
     ) {
