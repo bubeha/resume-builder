@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\App\Infrastructure\Persistence\Doctrine\Types;
 
+use App\Domain\Exceptions\DateTimeException;
+use App\Domain\ValueObjects\DateTime;
 use App\Domain\ValueObjects\Email;
-use App\Infrastructure\Persistence\Doctrine\Types\EmailType;
+use App\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
 use DG\BypassFinals;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -16,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-final class EmailTypeTest extends TestCase
+final class DateTimeTypeTest extends TestCase
 {
     private Type $type;
     private AbstractPlatform $platform;
@@ -29,11 +31,9 @@ final class EmailTypeTest extends TestCase
     {
         BypassFinals::enable();
 
-        if (!Type::hasType(EmailType::NAME)) {
-            Type::addType(EmailType::NAME, EmailType::class);
-        }
+        Type::overrideType(DateTimeType::NAME, DateTimeType::class);
 
-        $this->type = Type::getType(EmailType::NAME);
+        $this->type = Type::getType(DateTimeType::NAME);
         $this->platform = $this->getPlatformMock();
     }
 
@@ -52,24 +52,18 @@ final class EmailTypeTest extends TestCase
 
     /**
      * @throws ConversionException
+     * @throws DateTimeException
      */
     public function testConvertToPhpValueShouldReturnUuidClass(): void
     {
-        self::assertInstanceOf(Email::class, $this->type->convertToPHPValue('some@correct.email', $this->platform));
+        self::assertInstanceOf(DateTime::class, $this->type->convertToPHPValue((string)DateTime::now(), $this->platform));
     }
 
     public function testConvertToPhpValueShouldThrowException(): void
     {
         $this->expectException(ConversionException::class);
 
-        $this->type->convertToPHPValue(Email::fromString('some@correct.email'), $this->platform);
-    }
-
-    public function testConvertToPhpValueShouldThrowExceptionWithIncorrectEmail(): void
-    {
-        $this->expectException(ConversionException::class);
-
-        $this->type->convertToPHPValue('some incorrect email', $this->platform);
+        $this->type->convertToPHPValue('incorrect value', $this->platform);
     }
 
     /**
@@ -80,21 +74,18 @@ final class EmailTypeTest extends TestCase
         self::assertNull($this->type->convertToDatabaseValue(null, $this->platform));
     }
 
-    /**
-     * @throws ConversionException
-     */
-    public function testConvertToDatabaseShouldReturnEmailClass(): void
+    public function testConvertToDatabaseShouldReturnDateTimeClass(): void
     {
-        $email = Email::fromString('some@correct.email');
+        $dateTime = DateTime:: now();
 
-        self::assertSame((string)$email, $this->type->convertToDatabaseValue($email, $this->platform));
+        self::assertSame((string)$dateTime, $this->type->convertToDatabaseValue($dateTime, $this->platform));
     }
 
     public function testConvertToDatabaseShouldThrowException(): void
     {
         $this->expectException(ConversionException::class);
 
-        $this->type->convertToDatabaseValue((string)Email::fromString('some@correct.email'), $this->platform);
+        $this->type->convertToDatabaseValue('incorrect value', $this->platform);
     }
 
     /**
@@ -104,7 +95,7 @@ final class EmailTypeTest extends TestCase
     {
         $mockObject = $this->createMock(AbstractPlatform::class);
 
-        $mockObject->method('getStringTypeDeclarationSQL')
+        $mockObject->method('getDateTimeTypeDeclarationSQL')
             ->willReturn('string')
         ;
 

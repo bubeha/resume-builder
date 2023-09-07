@@ -16,7 +16,7 @@ final class UuidType extends GuidType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Uuid
     {
-        if (empty($value)) {
+        if ($value === null) {
             return null;
         }
 

@@ -4,30 +4,32 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Doctrine\Types;
 
+use App\Domain\ValueObjects\DateTime;
 use App\Domain\ValueObjects\Email;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\StringType;
+use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Throwable;
 
-final class EmailType extends StringType
+final class DateTimeType extends DateTimeImmutableType
 {
-    public const NAME = 'email';
+    public const NAME = 'datetime_immutable';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Email
+    /**
+     * @throws ConversionException
+     */
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
     {
         if ($value === null) {
             return null;
         }
 
-        if (\is_string($value)) {
-            try {
-                return Email::fromString($value);
-            } catch (Throwable) {
-            }
+        try {
+            return DateTime::create((string)$value);
+        } catch (Throwable) {
         }
 
-        throw ConversionException::conversionFailedFormat($value, $this->getName(), 'Email string');
+        throw ConversionException::conversionFailedFormat($value, self::NAME, $platform->getDateTimeFormatString());
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
@@ -36,19 +38,14 @@ final class EmailType extends StringType
             return null;
         }
 
-        if (!$value instanceof Email) {
+        if (!$value instanceof DateTime) {
             throw ConversionException::conversionFailedInvalidType(
                 $value,
-                $this->getName(),
+                self::NAME,
                 ['null', Email::class],
             );
         }
 
         return (string)$value;
-    }
-
-    public function getName(): string
-    {
-        return self::NAME;
     }
 }
