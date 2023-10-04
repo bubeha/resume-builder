@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
-use App\Infrastructure\Persistence\Doctrine\Types\EmailType;
-use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\ORMSetup;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
