@@ -23,15 +23,12 @@ final class User
         private readonly Uuid $id,
         #[Column(type: 'email', unique: true)]
         private Email $email,
+        #[Column(type: 'string')]
+        private string $passwordHash,
         #[Column(type: 'datetime')]
         private readonly DateTime $registeredAt = new DateTime(
         ),
     ) {
-    }
-
-    public function setEmail(Email $email): void
-    {
-        $this->email = $email;
     }
 
     public function getId(): Uuid
@@ -42,6 +39,21 @@ final class User
     public function getEmail(): Email
     {
         return $this->email;
+    }
+
+    public function setEmail(Email $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function getPasswordHash(): ?string
+    {
+        return $this->passwordHash;
+    }
+
+    public function changePassword(string $password): void
+    {
+        $this->passwordHash = $password;
     }
 
     public function getRegisteredAt(): DateTime

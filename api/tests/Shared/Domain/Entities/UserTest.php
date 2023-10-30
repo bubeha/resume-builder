@@ -23,19 +23,23 @@ final class UserTest extends TestCase
         $uuid = Uuid::generate();
         $email = Email::fromString('test@email.com');
         $dateTime = DateTime::now();
+        $passwordHash = '12345678';
 
-        $user = new User($uuid, $email, $dateTime);
+        $user = new User($uuid, $email, $passwordHash, $dateTime);
 
         self::assertEquals($uuid, $user->getId());
         self::assertEquals($email, $user->getEmail());
         self::assertEquals($dateTime, $user->getRegisteredAt());
+        self::assertEquals($passwordHash, $user->getPasswordHash());
     }
 
     public function testCreateWithoutRegisteredAt(): void
     {
         $uuid = Uuid::generate();
         $email = Email::fromString('test@email.com');
-        $user = new User($uuid, $email);
+        $passwordHash = '12345678';
+
+        $user = new User($uuid, $email, $passwordHash);
 
         self::assertEquals(
             (new DateTime('now'))->format('d/m/y'),
@@ -48,8 +52,10 @@ final class UserTest extends TestCase
         $uuid = Uuid::generate();
         $email = Email::fromString('test@email.com');
         $dateTime = DateTime::now();
+        $passwordHash = '12345678';
 
-        $user = new User($uuid, $email, $dateTime);
+
+        $user = new User($uuid, $email, $passwordHash, $dateTime);
 
         $anotherEmail = Email::fromString('another@email.com');
         $user->setEmail($anotherEmail);
