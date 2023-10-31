@@ -4,34 +4,36 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Persistence\Doctrine\Types;
 
-use App\Shared\Domain\ValueObjects\Uuid;
+use App\Shared\Domain\ValueObjects\HashedPassword;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\GuidType;
+use Doctrine\DBAL\Types\StringType;
 use Throwable;
+use function is_string;
 
-final class UuidType extends GuidType
+final class HashedPasswordType extends StringType
 {
-    final public const NAME = 'uuid';
+    public const NAME = 'hashed_password';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Uuid
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?HashedPassword
     {
-        if ($value instanceof Uuid) {
-            return $value;
-        }
-
         if ($value === null) {
             return null;
         }
 
-        if (\is_string($value)) {
+        if (is_string($value)) {
             try {
-                return Uuid::fromString($value);
+                return HashedPassword::fromHash($value);
             } catch (Throwable) {
             }
         }
 
-        throw ConversionException::conversionFailedFormat($value, $this->getName(), 'uuid');
+        throw ConversionException::conversionFailedFormat($value, $this->getName(), 'Hashed password string');
+    }
+
+    public function getName(): string
+    {
+        return self::NAME;
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
@@ -40,19 +42,14 @@ final class UuidType extends GuidType
             return null;
         }
 
-        if (!$value instanceof Uuid) {
+        if (!$value instanceof HashedPassword) {
             throw ConversionException::conversionFailedInvalidType(
                 $value,
                 $this->getName(),
-                ['null', Uuid::class],
+                ['null', HashedPassword::class],
             );
         }
 
         return (string)$value;
-    }
-
-    public function getName(): string
-    {
-        return self::NAME;
     }
 }

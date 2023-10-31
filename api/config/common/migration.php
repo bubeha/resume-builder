@@ -24,7 +24,7 @@ return [
 
         $configuration = new Configuration();
 
-        $configuration->addMigrationsDirectory('App\Infrastructure\Persistence\Migrations', __DIR__ . '/../../src/App/Infrastructure/Persistence/Migrations');
+        $configuration->addMigrationsDirectory('App\Shared\Infrastructure\Persistence\Migrations', __DIR__ . '/../../src/Shared/Infrastructure/Persistence/Migrations');
         $configuration->setAllOrNothing(true);
         $configuration->setCheckDatabasePlatform(false);
 

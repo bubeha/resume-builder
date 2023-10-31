@@ -5,9 +5,7 @@ use App\Shared\Infrastructure\Modules\ModuleInterface;
 use Psr\Container\ContainerInterface;
 
 return [
-    ModuleInterface::class => static function (ContainerInterface $container) {
-        return [
-            new SharedModule(),
-        ];
-    },
+    ModuleInterface::class => static fn(ContainerInterface $container) => [
+        new SharedModule(),
+    ],
 ];

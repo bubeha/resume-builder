@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Shared\Domain\Entities;
 
 use App\Shared\Domain\Entities\User;
+use App\Shared\Domain\ValueObjects\HashedPassword;
 use PHPUnit\Framework\TestCase;
 use App\Shared\Domain\ValueObjects\DateTime;
 use App\Shared\Domain\ValueObjects\Email;
@@ -23,7 +24,7 @@ final class UserTest extends TestCase
         $uuid = Uuid::generate();
         $email = Email::fromString('test@email.com');
         $dateTime = DateTime::now();
-        $passwordHash = '12345678';
+        $passwordHash = HashedPassword::encode('12345678');
 
         $user = new User($uuid, $email, $passwordHash, $dateTime);
 
@@ -37,7 +38,7 @@ final class UserTest extends TestCase
     {
         $uuid = Uuid::generate();
         $email = Email::fromString('test@email.com');
-        $passwordHash = '12345678';
+        $passwordHash = HashedPassword::encode('12345678');
 
         $user = new User($uuid, $email, $passwordHash);
 
@@ -52,8 +53,7 @@ final class UserTest extends TestCase
         $uuid = Uuid::generate();
         $email = Email::fromString('test@email.com');
         $dateTime = DateTime::now();
-        $passwordHash = '12345678';
-
+        $passwordHash = HashedPassword::encode('12345678');
 
         $user = new User($uuid, $email, $passwordHash, $dateTime);
 

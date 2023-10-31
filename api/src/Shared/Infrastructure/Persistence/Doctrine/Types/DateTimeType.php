@@ -17,9 +17,9 @@ final class DateTimeType extends DateTimeImmutableType
     /**
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
@@ -31,7 +31,7 @@ final class DateTimeType extends DateTimeImmutableType
         throw ConversionException::conversionFailedFormat($value, self::NAME, $platform->getDateTimeFormatString());
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): null|string
     {
         if (empty($value)) {
             return null;
