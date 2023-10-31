@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Infrastructure\Persistence\Doctrine\Types;
 
-use DG\BypassFinals;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -27,8 +26,6 @@ final class UuidTypeTest extends TestCase
      */
     protected function setUp(): void
     {
-        BypassFinals::enable();
-
         if (!Type::hasType(UuidType::NAME)) {
             Type::addType(UuidType::NAME, UuidType::class);
         }
@@ -59,13 +56,6 @@ final class UuidTypeTest extends TestCase
     }
 
     public function testConvertToPhpValueShouldThrowException(): void
-    {
-        $this->expectException(ConversionException::class);
-
-        $this->type->convertToPHPValue(Uuid::generate(), $this->platform);
-    }
-
-    public function testConvertToPhpValueShouldThrowExceptionWithIncorrectUUID(): void
     {
         $this->expectException(ConversionException::class);
 

@@ -34,6 +34,19 @@ final class UserTest extends TestCase
         self::assertEquals($passwordHash, $user->getPasswordHash());
     }
 
+    public function testMake(): void
+    {
+        $email = Email::fromString('test@email.com');
+        $dateTime = DateTime::now();
+        $passwordHash = HashedPassword::encode('12345678');
+
+        $user = User::make($email, $passwordHash, $dateTime);
+
+        self::assertEquals($email, $user->getEmail());
+        self::assertEquals($dateTime, $user->getRegisteredAt());
+        self::assertEquals($passwordHash, $user->getPasswordHash());
+    }
+
     public function testCreateWithoutRegisteredAt(): void
     {
         $uuid = Uuid::generate();
@@ -61,5 +74,17 @@ final class UserTest extends TestCase
         $user->setEmail($anotherEmail);
 
         self::assertEquals($anotherEmail, $user->getEmail());
+    }
+
+    public function testChangePassword(): void
+    {
+        $email = Email::fromString('test@email.com');
+        $passwordHash = HashedPassword::encode('12345678');
+
+        $user = User::make($email, $passwordHash);
+
+        $user->changePassword('another-password');
+
+        self::assertTrue($user->getPasswordHash()->match('another-password'));
     }
 }
