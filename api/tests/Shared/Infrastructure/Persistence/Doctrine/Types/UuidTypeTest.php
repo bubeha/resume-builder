@@ -50,6 +50,16 @@ final class UuidTypeTest extends TestCase
     /**
      * @throws ConversionException
      */
+    public function testConvertToPhpValueShouldReturnSameUuid(): void
+    {
+        $uuid = Uuid::generate();
+
+        self::assertSame($uuid, $this->type->convertToPHPValue($uuid, $this->platform));
+    }
+
+    /**
+     * @throws ConversionException
+     */
     public function testConvertToPhpValueShouldReturnUuidClass(): void
     {
         self::assertInstanceOf(Uuid::class, $this->type->convertToPHPValue((string)Uuid::generate(), $this->platform));
