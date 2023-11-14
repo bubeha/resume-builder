@@ -6,6 +6,7 @@ namespace App\Auth\Infrastructure\Repository;
 
 use App\Auth\Domain\Repository\UserRepository;
 use App\Shared\Domain\Entities\User;
+use App\Shared\Domain\ValueObjects\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 
@@ -24,12 +25,14 @@ final readonly class UserStore implements UserRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function first(): ?User
+    public function findByEmail(Email $email): ?User
     {
         return $this->entityManager->getRepository(User::class)
-                ->createQueryBuilder('u')
-               ->setMaxResults(1)
-               ->getQuery()
-               ->getOneOrNullResult();
+            ->createQueryBuilder('u')
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

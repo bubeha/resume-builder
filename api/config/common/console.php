@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Auth\Infrastructure\Console\CreateUserCommand;
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
 use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
 use Doctrine\Migrations\Tools\Console\Command\LatestCommand;
@@ -32,6 +33,8 @@ return [
                 StatusCommand::class,
                 UpToDateCommand::class,
                 DiffCommand::class,
+                // Auth Module
+                CreateUserCommand::class,
             ],
         ],
     ],

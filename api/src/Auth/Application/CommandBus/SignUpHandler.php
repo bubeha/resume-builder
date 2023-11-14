@@ -24,7 +24,7 @@ final readonly class SignUpHandler implements CommandHandler
         $this->validator->validate($command);
 
         $email = Email::fromString($command->getEmail());
-        $hashedPassword = HashedPassword::fromHash($command->getPassword());
+        $hashedPassword = HashedPassword::encode($command->getPassword());
 
         $this->userRepository->store(
             User::make($email, $hashedPassword)

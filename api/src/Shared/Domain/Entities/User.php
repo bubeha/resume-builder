@@ -61,7 +61,7 @@ final class User
         $this->email = $email;
     }
 
-    public function getPasswordHash(): ?HashedPassword
+    public function getPasswordHash(): HashedPassword
     {
         return $this->passwordHash;
     }

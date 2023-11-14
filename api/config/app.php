@@ -17,6 +17,7 @@ return static function (ContainerInterface $container) {
         $module->configure($app);
     }
 
+    $app->addBodyParsingMiddleware();
     $app->add(ErrorMiddleware::class);
 
     return $app;
