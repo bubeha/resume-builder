@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity, Table(name: 'users')]
-final class User
+final class User implements UserInterface
 {
     public function __construct(
         #[Id, Column(type: 'uuid', unique: true), GeneratedValue(strategy: 'CUSTOM'), CustomIdGenerator(class: UuidGenerator::class)]
@@ -44,7 +44,7 @@ final class User
         );
     }
 
-    public function getId(): Uuid
+    public function getIdentifier(): Uuid
     {
         return $this->id;
     }

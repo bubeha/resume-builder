@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Auth\Application\CommandBus\Login;
 
+use App\Auth\Domain\Manager\JwtTokenManager;
 use App\Auth\Domain\Repository\UserRepository;
 use App\Shared\Application\CommandBus\CommandHandler;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Infrastructure\Validator\Validator;
-use Firebase\JWT\JWT;
 use LogicException;
 
 final readonly class LoginHandler implements CommandHandler
@@ -16,6 +16,7 @@ final readonly class LoginHandler implements CommandHandler
     public function __construct(
         private UserRepository $userRepository,
         private Validator $validator,
+        private JwtTokenManager $jwtTokenManager,
     ) {}
 
     public function handle(LoginCommand $command): string
@@ -29,15 +30,6 @@ final readonly class LoginHandler implements CommandHandler
             throw new LogicException('incorrect data');
         }
 
-        $token = [
-            'iss' => 'utopian',
-            'iat' => \time(),
-            'exp' => \time() + 60,
-            'data' => [
-                'user_id' => (string)$user->getId(),
-            ],
-        ];
-
-        return JWT::encode($token, 'secret-key', 'HS256');
+        return $this->jwtTokenManager->create($user);
     }
 }

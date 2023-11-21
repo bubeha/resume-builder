@@ -28,7 +28,7 @@ final class UserTest extends TestCase
 
         $user = new User($uuid, $email, $passwordHash, $dateTime);
 
-        self::assertEquals($uuid, $user->getId());
+        self::assertEquals($uuid, $user->getIdentifier());
         self::assertEquals($email, $user->getEmail());
         self::assertEquals($dateTime, $user->getRegisteredAt());
         self::assertEquals($passwordHash, $user->getPasswordHash());
