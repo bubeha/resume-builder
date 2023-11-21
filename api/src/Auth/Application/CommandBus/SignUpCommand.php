@@ -19,9 +19,7 @@ final readonly class SignUpCommand implements Command
         #[NotBlank]
         #[Length(min: HashedPassword::PASSWORD_MIN_LENGTH)]
         private string $password,
-    )
-    {
-    }
+    ) {}
 
     public function getEmail(): string
     {

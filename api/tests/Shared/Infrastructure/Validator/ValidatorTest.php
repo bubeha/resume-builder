@@ -8,9 +8,13 @@ use App\Shared\Infrastructure\Validator\ValidationException;
 use App\Shared\Infrastructure\Validator\Validator;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @internal
+ */
 final class ValidatorTest extends TestCase
 {
     /**
@@ -23,13 +27,15 @@ final class ValidatorTest extends TestCase
         $constraintMock = $this->createMock(ConstraintViolationListInterface::class);
 
         $constraintMock->method('count')
-            ->willReturn(2);
+            ->willReturn(2)
+        ;
 
         $validatorMock = $this->createMock(ValidatorInterface::class);
 
         $validatorMock->method('validate')
-            ->willReturn($constraintMock);
+            ->willReturn($constraintMock)
+        ;
 
-        (new Validator($validatorMock))->validate(new \stdClass());
+        (new Validator($validatorMock))->validate(new stdClass());
     }
 }

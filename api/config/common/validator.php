@@ -7,7 +7,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-return [ValidatorInterface::class => static fn(): ValidatorInterface => Validation::createValidatorBuilder()
+return [ValidatorInterface::class => static fn (): ValidatorInterface => Validation::createValidatorBuilder()
     ->enableAnnotationMapping()
     ->setTranslationDomain('validators')
-    ->getValidator(), Validator::class => static fn(ContainerInterface $container) => new Validator($container->get(ValidatorInterface::class))];
+    ->getValidator(), Validator::class => static fn (ContainerInterface $container) => new Validator($container->get(ValidatorInterface::class))];

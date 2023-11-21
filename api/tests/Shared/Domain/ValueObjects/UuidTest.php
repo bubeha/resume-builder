@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Domain\ValueObjects;
 
-use PHPUnit\Framework\TestCase;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Uuid;
+use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
 /**

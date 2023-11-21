@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Infrastructure\Persistence\Doctrine\Types;
 
+use App\Shared\Domain\Exceptions\DateTimeException;
+use App\Shared\Domain\ValueObjects\DateTime;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
 use DG\BypassFinals;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use App\Shared\Domain\Exceptions\DateTimeException;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
 use PHPUnit\Framework\TestCase;
-use App\Shared\Domain\ValueObjects\DateTime;
 
 /**
  * @internal
@@ -75,7 +75,7 @@ final class DateTimeTypeTest extends TestCase
 
     public function testConvertToDatabaseShouldReturnDateTimeClass(): void
     {
-        $dateTime = DateTime:: now();
+        $dateTime = DateTime::now();
 
         self::assertSame((string)$dateTime, $this->type->convertToDatabaseValue($dateTime, $this->platform));
     }

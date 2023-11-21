@@ -6,6 +6,7 @@ namespace App\Shared\Infrastructure\Validator;
 
 use LogicException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Throwable;
 
 final class ValidationException extends LogicException
 {
@@ -13,7 +14,7 @@ final class ValidationException extends LogicException
         private readonly ConstraintViolationListInterface $violations,
         string $message = 'Invalid input.',
         int $code = 0,
-        \Throwable $previous = null
+        ?Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }

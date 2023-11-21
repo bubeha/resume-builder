@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Domain\ValueObjects;
 
+use App\Shared\Domain\Exceptions\DateTimeException;
+use App\Shared\Domain\ValueObjects\DateTime;
 use DateTimeImmutable;
 use Exception;
-use App\Shared\Domain\Exceptions\DateTimeException;
 use PHPUnit\Framework\TestCase;
-use App\Shared\Domain\ValueObjects\DateTime;
 
 /**
  * @internal

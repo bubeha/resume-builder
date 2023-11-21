@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Infrastructure\Persistence\Doctrine\Types;
 
-use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\HashedPassword;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
 use App\Shared\Infrastructure\Persistence\Doctrine\Types\HashedPasswordType;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -14,10 +12,27 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class HashedPasswordTest extends TestCase
 {
     private Type $type;
     private AbstractPlatform $platform;
+
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    protected function setUp(): void
+    {
+        if (!Type::hasType(HashedPasswordType::NAME)) {
+            Type::addType(HashedPasswordType::NAME, HashedPasswordType::class);
+        }
+
+        $this->type = Type::getType(HashedPasswordType::NAME);
+        $this->platform = $this->getPlatformMock();
+    }
 
     public function testSqlDeclarationType(): void
     {
@@ -73,20 +88,6 @@ final class HashedPasswordTest extends TestCase
     }
 
     /**
-     * @throws Exception
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
-    protected function setUp(): void
-    {
-        if (!Type::hasType(HashedPasswordType::NAME)) {
-            Type::addType(HashedPasswordType::NAME, HashedPasswordType::class);
-        }
-
-        $this->type = Type::getType(HashedPasswordType::NAME);
-        $this->platform = $this->getPlatformMock();
-    }
-
-    /**
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
     private function getPlatformMock(): AbstractPlatform
@@ -94,7 +95,8 @@ final class HashedPasswordTest extends TestCase
         $mockObject = $this->createMock(AbstractPlatform::class);
 
         $mockObject->method('getStringTypeDeclarationSQL')
-            ->willReturn('string');
+            ->willReturn('string')
+        ;
 
         return $mockObject;
     }

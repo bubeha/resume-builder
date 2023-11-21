@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Shared\Domain\Entities;
 
 use App\Shared\Domain\Entities\User;
-use App\Shared\Domain\ValueObjects\HashedPassword;
-use PHPUnit\Framework\TestCase;
 use App\Shared\Domain\ValueObjects\DateTime;
 use App\Shared\Domain\ValueObjects\Email;
+use App\Shared\Domain\ValueObjects\HashedPassword;
 use App\Shared\Domain\ValueObjects\Uuid;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @internal

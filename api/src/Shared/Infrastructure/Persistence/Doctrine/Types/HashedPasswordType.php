@@ -8,7 +8,6 @@ use App\Shared\Domain\ValueObjects\HashedPassword;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\StringType;
-use function is_string;
 
 final class HashedPasswordType extends StringType
 {
@@ -20,7 +19,7 @@ final class HashedPasswordType extends StringType
             return null;
         }
 
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return HashedPassword::fromHash($value);
         }
 

@@ -29,14 +29,12 @@ final class User
         private HashedPassword $passwordHash,
         #[Column(type: 'datetime_immutable')]
         private DateTime $registeredAt = new DateTime(),
-    )
-    {
-    }
+    ) {}
 
     /**
      * @throws DateTimeException
      */
-    public static function make(Email $email, HashedPassword $hashedPassword, DateTime $dateTime = null): self
+    public static function make(Email $email, HashedPassword $hashedPassword, ?DateTime $dateTime = null): self
     {
         return new self(
             Uuid::generate(),

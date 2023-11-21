@@ -9,6 +9,9 @@ use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
+/**
+ * @internal
+ */
 final class ValidationExceptionTest extends TestCase
 {
     /**

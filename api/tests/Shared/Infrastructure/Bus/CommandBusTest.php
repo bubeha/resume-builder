@@ -30,8 +30,7 @@ final class CommandBusTest extends TestCase
         $container
             ->expects(self::once())
             ->method('get')
-            ->willThrowException(new class() extends Exception implements NotFoundExceptionInterface {
-            })
+            ->willThrowException(new class() extends Exception implements NotFoundExceptionInterface {})
         ;
 
         (new CommandBus($container))->handle(new class() {

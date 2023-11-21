@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 use App\Auth\Domain\Repository\UserRepository as UserRepositoryInterface;
 use App\Auth\Infrastructure\Repository\UserStore;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
 use App\Shared\Infrastructure\Persistence\Doctrine\Types\HashedPasswordType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\ORMSetup;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -59,7 +59,7 @@ return [
 
         return new EntityManager($connection, $config);
     },
-    UserRepositoryInterface::class => static fn(ContainerInterface $container) => new UserStore($container->get(EntityManagerInterface::class)),
+    UserRepositoryInterface::class => static fn (ContainerInterface $container) => new UserStore($container->get(EntityManagerInterface::class)),
     'config' => [
         'doctrine' => [
             'devMode' => getenv('app_env') === 'prod',

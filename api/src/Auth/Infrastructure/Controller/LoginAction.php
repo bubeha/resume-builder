@@ -8,16 +8,17 @@ use App\Auth\Domain\Repository\UserRepository;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Infrastructure\Controller\AbstractAction;
 use Firebase\JWT\JWT;
+use JsonException;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class LoginAction extends AbstractAction
 {
-    public function __construct(private readonly UserRepository $userRepository)
-    {
-    }
+    public function __construct(
+        private readonly UserRepository $userRepository,
+    ) {}
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function handle(): Response
     {
@@ -30,10 +31,10 @@ final class LoginAction extends AbstractAction
         if ($user && $user->getPasswordHash()->match($result['password'])) {
             $token = [
                 'iss' => 'utopian',
-                'iat' => time(),
-                'exp' => time() + 60,
+                'iat' => \time(),
+                'exp' => \time() + 60,
                 'data' => [
-                    'user_id' => (string)$user->getId()
+                    'user_id' => (string)$user->getId(),
                 ],
             ];
 
@@ -41,7 +42,6 @@ final class LoginAction extends AbstractAction
                 'token' => JWT::encode($token, 'secret-key', 'HS256'),
             ]);
         }
-
 
         return $this->json([], 400);
     }

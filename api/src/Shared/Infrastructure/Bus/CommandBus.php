@@ -12,8 +12,7 @@ final readonly class CommandBus implements CommandBusInterface
 {
     public function __construct(
         private ContainerInterface $container,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \Psr\Container\ContainerExceptionInterface

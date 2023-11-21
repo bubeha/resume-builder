@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Infrastructure\Persistence\Doctrine\Types;
 
+use App\Shared\Domain\ValueObjects\Email;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
 use DG\BypassFinals;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
 use PHPUnit\Framework\TestCase;
-use App\Shared\Domain\ValueObjects\Email;
 
 /**
  * @internal

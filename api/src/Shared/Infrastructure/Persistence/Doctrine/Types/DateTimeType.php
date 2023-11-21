@@ -19,7 +19,7 @@ final class DateTimeType extends DateTimeImmutableType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if (null === $value) {
+        if ($value === null) {
             return null;
         }
 

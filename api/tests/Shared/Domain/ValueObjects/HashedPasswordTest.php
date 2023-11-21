@@ -7,6 +7,9 @@ namespace Tests\Shared\Domain\ValueObjects;
 use App\Shared\Domain\ValueObjects\HashedPassword;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class HashedPasswordTest extends TestCase
 {
     public function testCreate(): void

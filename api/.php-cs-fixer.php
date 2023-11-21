@@ -7,7 +7,7 @@ use PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer;
 return
     (new PhpCsFixer\Config())
         ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
-        ->setCacheFile(__DIR__ . '/var/cache/.php_cs')
+        ->setCacheFile(__DIR__ . '/var/cache/.php-cs-fixer.cache')
         ->setFinder(
             PhpCsFixer\Finder::create()
                 ->in([
@@ -115,5 +115,6 @@ return
             'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arrays', 'arguments', 'parameters']],
             'method_argument_space' => ['after_heredoc' => true, 'keep_multiple_spaces_after_comma' => true, 'on_multiline' => 'ensure_fully_multiline'],
             MultilinePromotedPropertiesFixer::name() => true,
+            'no_extra_blank_lines' => true,
         ])
 ;

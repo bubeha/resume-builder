@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\ValueObjects;
 
-use DateTimeImmutable;
 use App\Shared\Domain\Exceptions\DateTimeException;
+use DateTimeImmutable;
 use Throwable;
 
 /**

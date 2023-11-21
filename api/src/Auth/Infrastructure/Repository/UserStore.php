@@ -12,9 +12,9 @@ use Doctrine\ORM\NonUniqueResultException;
 
 final readonly class UserStore implements UserRepository
 {
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ) {}
 
     public function store(User $user): void
     {
@@ -33,6 +33,7 @@ final readonly class UserStore implements UserRepository
             ->setParameter('email', $email)
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

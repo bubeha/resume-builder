@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Infrastructure\Persistence\Doctrine\Types;
 
+use App\Shared\Domain\ValueObjects\Uuid;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use App\Shared\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use PHPUnit\Framework\TestCase;
-use App\Shared\Domain\ValueObjects\Uuid;
 
 /**
  * @internal

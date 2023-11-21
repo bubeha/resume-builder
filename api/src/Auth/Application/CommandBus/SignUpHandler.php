@@ -14,11 +14,12 @@ use App\Shared\Infrastructure\Validator\Validator;
 
 final readonly class SignUpHandler implements CommandHandler
 {
-    public function __construct(private UserRepository $userRepository, private Validator $validator)
-    {
-    }
+    public function __construct(
+        private UserRepository $userRepository,
+        private Validator $validator,
+    ) {}
 
-    public function handle(SignUpCommand|Command $command): void
+    public function handle(Command|SignUpCommand $command): void
     {
         /** @var SignUpCommand $command */
         $this->validator->validate($command);
@@ -27,7 +28,7 @@ final readonly class SignUpHandler implements CommandHandler
         $hashedPassword = HashedPassword::encode($command->getPassword());
 
         $this->userRepository->store(
-            User::make($email, $hashedPassword)
+            User::make($email, $hashedPassword),
         );
     }
 }

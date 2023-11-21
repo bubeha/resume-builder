@@ -15,8 +15,9 @@ final class CreateUserCommand extends Command
 {
     protected static $defaultDescription = 'Creates a new user.';
 
-    public function __construct(private readonly SignUpHandler $handler)
-    {
+    public function __construct(
+        private readonly SignUpHandler $handler,
+    ) {
         parent::__construct('auth:create-user');
     }
 
@@ -26,7 +27,7 @@ final class CreateUserCommand extends Command
             new SignUpCommand(
                 $input->getArgument('email'),
                 $input->getArgument('password'),
-            )
+            ),
         );
 
         return Command::SUCCESS;
@@ -36,6 +37,7 @@ final class CreateUserCommand extends Command
     {
         $this
             ->addArgument('email', InputArgument::REQUIRED, 'User email.')
-            ->addArgument('password', InputArgument::REQUIRED, 'User password.');
+            ->addArgument('password', InputArgument::REQUIRED, 'User password.')
+        ;
     }
 }
