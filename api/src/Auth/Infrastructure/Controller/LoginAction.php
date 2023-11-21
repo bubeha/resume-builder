@@ -4,45 +4,37 @@ declare(strict_types=1);
 
 namespace App\Auth\Infrastructure\Controller;
 
-use App\Auth\Domain\Repository\UserRepository;
-use App\Shared\Domain\ValueObjects\Email;
+use App\Auth\Application\CommandBus\Login\LoginCommand;
+use App\Auth\Application\CommandBus\Login\LoginHandler;
 use App\Shared\Infrastructure\Controller\AbstractAction;
-use Firebase\JWT\JWT;
-use JsonException;
 use Psr\Http\Message\ResponseInterface as Response;
+use Throwable;
 
 final class LoginAction extends AbstractAction
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
+        private readonly LoginHandler $handler,
     ) {}
 
-    /**
-     * @throws JsonException
-     */
     public function handle(): Response
     {
         /** @var array{email: string, password: string} $result */
-        $result = $this->request->getParsedBody();
+        $result = $this->request?->getParsedBody();
 
-        $user = $this->userRepository->findByEmail(Email::fromString($result['email']));
-
-        // todo logic
-        if ($user && $user->getPasswordHash()->match($result['password'])) {
-            $token = [
-                'iss' => 'utopian',
-                'iat' => \time(),
-                'exp' => \time() + 60,
-                'data' => [
-                    'user_id' => (string)$user->getId(),
-                ],
-            ];
+        try {
+            $result = $this->handler
+                ->handle(
+                    new LoginCommand($result['email'], $result['password']),
+                )
+            ;
 
             return $this->json([
-                'token' => JWT::encode($token, 'secret-key', 'HS256'),
+                'token' => $result,
             ]);
+        } catch (Throwable $throwable) {
+            return $this->json([
+                'message' => $throwable->getMessage(),
+            ], 400);
         }
-
-        return $this->json([], 400);
     }
 }

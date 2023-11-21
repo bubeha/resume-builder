@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\CommandBus;
+namespace App\Auth\Application\CommandBus\SignUp;
 
 use App\Shared\Application\CommandBus\Command;
 use App\Shared\Domain\ValueObjects\HashedPassword;

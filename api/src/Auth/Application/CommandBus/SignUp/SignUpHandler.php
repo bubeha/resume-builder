@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\CommandBus;
+namespace App\Auth\Application\CommandBus\SignUp;
 
 use App\Auth\Domain\Repository\UserRepository;
-use App\Shared\Application\CommandBus\Command;
 use App\Shared\Application\CommandBus\CommandHandler;
 use App\Shared\Domain\Entities\User;
 use App\Shared\Domain\ValueObjects\Email;
@@ -19,9 +18,8 @@ final readonly class SignUpHandler implements CommandHandler
         private Validator $validator,
     ) {}
 
-    public function handle(Command|SignUpCommand $command): void
+    public function handle(SignUpCommand $command): void
     {
-        /** @var SignUpCommand $command */
         $this->validator->validate($command);
 
         $email = Email::fromString($command->getEmail());

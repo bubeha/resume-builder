@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Auth\Infrastructure\Console;
 
-use App\Auth\Application\CommandBus\SignUpCommand;
-use App\Auth\Application\CommandBus\SignUpHandler;
+use App\Auth\Application\CommandBus\SignUp\SignUpCommand;
+use App\Auth\Application\CommandBus\SignUp\SignUpHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Auth\Application\CommandBus\SignUpHandler;
+use App\Auth\Application\CommandBus\SignUp\SignUpHandler;
 use App\Auth\Domain\Repository\UserRepository;
 use App\Shared\Application\CommandBus\CommandBus as CommandBusInterface;
 use App\Shared\Infrastructure\Bus\CommandBus;
