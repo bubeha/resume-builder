@@ -77,7 +77,9 @@ final class DateTimeTypeTest extends TestCase
     {
         $dateTime = DateTime::now();
 
-        self::assertSame((string)$dateTime, $this->type->convertToDatabaseValue($dateTime, $this->platform));
+        $convertToDatabaseValue = $this->type->convertToDatabaseValue($dateTime, $this->platform);
+
+        self::assertSame((string)$dateTime, $convertToDatabaseValue);
     }
 
     public function testConvertToDatabaseShouldThrowException(): void
@@ -96,6 +98,10 @@ final class DateTimeTypeTest extends TestCase
 
         $mockObject->method('getDateTimeTypeDeclarationSQL')
             ->willReturn('string')
+        ;
+
+        $mockObject->method('getDateTimeFormatString')
+            ->willReturn('Y-m-d H:i:s')
         ;
 
         return $mockObject;

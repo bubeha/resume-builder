@@ -8,6 +8,6 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 return [ValidatorInterface::class => static fn (): ValidatorInterface => Validation::createValidatorBuilder()
-    ->enableAnnotationMapping()
+    ->enableAttributeMapping()
     ->setTranslationDomain('validators')
     ->getValidator(), Validator::class => static fn (ContainerInterface $container) => new Validator($container->get(ValidatorInterface::class))];

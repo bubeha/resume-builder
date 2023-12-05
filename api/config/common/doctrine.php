@@ -68,7 +68,7 @@ return [
             'proxyDir' => __DIR__ . '/../../var/cache/doctrine/proxy',
 
             'metadataDirs' => [
-                __DIR__ . '/../../src/App/Domain/Entities',
+                __DIR__ . '/../../src/Shared/Domain/Entities',
             ],
 
             'connection' => [

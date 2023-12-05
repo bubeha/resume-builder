@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Persistence\Doctrine\Types;
 
 use App\Shared\Domain\ValueObjects\DateTime;
+use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
@@ -37,14 +38,14 @@ final class DateTimeType extends DateTimeImmutableType
             return null;
         }
 
-        if (!$value instanceof DateTime) {
-            throw ConversionException::conversionFailedInvalidType(
-                $value,
-                self::NAME,
-                ['null', DateTime::class],
-            );
+        if ($value instanceof DateTimeImmutable) {
+            return $value->format($platform->getDateTimeFormatString());
         }
 
-        return (string)$value;
+        throw ConversionException::conversionFailedInvalidType(
+            $value,
+            self::NAME,
+            ['null', DateTimeImmutable::class],
+        );
     }
 }

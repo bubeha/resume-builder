@@ -24,7 +24,7 @@ final class LoginAction extends AbstractAction
         try {
             $result = $this->handler
                 ->handle(
-                    new LoginCommand($result['email'], $result['password']),
+                    new LoginCommand($result['email'] ?? '', $result['password'] ?? ''),
                 )
             ;
 

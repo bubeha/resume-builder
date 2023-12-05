@@ -30,4 +30,8 @@ analyze: psalm
 
 lint:
 	$(DOCKER_COMPOSE) run --rm --no-deps php-cli composer run rector
+	$(DOCKER_COMPOSE) run --rm --no-deps php-cli composer run php-cs-fixer
+
+lint-validate:
+	$(DOCKER_COMPOSE) run --rm --no-deps php-cli composer run rector -- --dry-run
 	$(DOCKER_COMPOSE) run --rm --no-deps php-cli composer run php-cs-fixer -- --dry-run --diff
