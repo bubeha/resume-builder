@@ -5,28 +5,30 @@ declare(strict_types=1);
 namespace App\Auth\Infrastructure\Manager;
 
 use App\Auth\Domain\Manager\JwtTokenManager as JwtTokenManagerInterface;
-use App\Shared\Domain\Entities\UserInterface;
+use App\Shared\Domain\Entities\AuthenticatedUser;
 use DateInterval;
+use DateTimeImmutable;
 use Firebase\JWT\JWT;
-use League\Flysystem\FilesystemReader;
 
 final readonly class JwtTokenManager implements JwtTokenManagerInterface
 {
     public function __construct(
-        private FilesystemReader $filesystemReader,
+        private string $privateKey,
+        private string $algorithm,
+        private string $issuer,
     ) {}
 
-    public function create(UserInterface $user): string
+    public function create(AuthenticatedUser $user): string
     {
         $token = [
-            'iss' => 'utopian',
-            'iat' => new \DateTimeImmutable('now'),
-            'exp' => new DateInterval('PT1H'),
+            'iss' => $this->issuer,
+            'iat' => (new DateTimeImmutable('now'))->getTimestamp(),
+            'exp' => (new DateTimeImmutable())->add(new DateInterval('PT1H'))->getTimestamp(),
             'data' => [
                 'user_id' => (string)$user->getIdentifier(),
             ],
         ];
 
-        return JWT::encode($token, $this->filesystemReader->read('/var/jwt/private.pem'), 'HS256');
+        return JWT::encode($token, $this->privateKey, $this->algorithm);
     }
 }

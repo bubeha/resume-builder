@@ -13,9 +13,9 @@ final class KeyPairGenerator
     {
         // todo move it to config
         $resource = \openssl_pkey_new([
-            'digest_alg' => Algorithm::HS256,
-            'private_key_type' => Algorithm::HS256_TYPE,
-            'private_key_bits' => Algorithm::HS256_BITS,
+            'digest_alg' => Algorithm::RS256,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'private_key_bits' => 2048,
         ]);
 
         Assert::notFalse($resource, \openssl_error_string());

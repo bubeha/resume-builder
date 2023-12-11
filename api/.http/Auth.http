@@ -1,0 +1,19 @@
+POST {{host}}/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+GET {{host}}/me
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}

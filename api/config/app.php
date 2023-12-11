@@ -14,7 +14,7 @@ return static function (ContainerInterface $container) {
     $modules = $container->get(ModuleInterface::class);
 
     foreach ($modules as $module) {
-        $module->configure($app);
+        $module->configure($app, $container);
     }
 
     $app->addBodyParsingMiddleware();
