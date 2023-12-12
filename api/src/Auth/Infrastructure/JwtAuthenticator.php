@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Auth\Infrastructure;
 
 use App\Auth\Domain\Authenticator;
+use App\Auth\Domain\Manager\JwtTokenManager;
 use App\Auth\Domain\Repository\UserRepository;
 use App\Shared\Domain\Entities\AuthenticatedUser;
 use App\Shared\Domain\ValueObjects\Uuid;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpUnauthorizedException;
 use Throwable;
@@ -20,7 +19,7 @@ final class JwtAuthenticator implements Authenticator
     private ?AuthenticatedUser $user = null;
 
     public function __construct(
-        private readonly Key $key,
+        private readonly JwtTokenManager $jwtTokenManager,
         private readonly UserRepository $userRepository,
     ) {}
 
@@ -39,9 +38,13 @@ final class JwtAuthenticator implements Authenticator
         $authToken = $this->getAuthorizationToken($request);
 
         try {
-            $result = JWT::decode(\str_replace('Bearer ', '', $authToken), $this->key);
+            $result = $this->jwtTokenManager->decode(
+                \mb_substr($authToken, 7, null, 'UTF-8'),
+            );
 
-            $user = $this->userRepository->findById(Uuid::fromString($result->data->user_id));
+            Assert::notFalse($result);
+
+            $user = $this->userRepository->findById(Uuid::fromString($result->user_id));
 
             Assert::isInstanceOf($user, AuthenticatedUser::class);
 

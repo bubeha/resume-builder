@@ -10,38 +10,28 @@ use App\Auth\Infrastructure\Manager\Algorithm;
 use App\Auth\Infrastructure\Manager\JwtTokenManager;
 use App\Auth\Infrastructure\Middleware\Authenticate;
 use App\Shared\Domain\Entities\AuthenticatedUser;
-use Firebase\JWT\Key;
 use League\Flysystem\FilesystemReader;
 use Psr\Container\ContainerInterface;
 
 return [
     JwtTokenManagerInterface::class => static function (ContainerInterface $container): JwtTokenManagerInterface {
-        ['privateKey' => $key, 'algorithm' => $algorithm] = $container->get('config')['auth'];
+        ['privateKey' => $privateKey, 'publicKey' => $publicKey, 'algorithm' => $algorithm] = $container->get('config')['auth'];
 
         /** @var FilesystemReader $fileReader */
         $fileReader = $container->get(FilesystemReader::class);
 
         return new JwtTokenManager(
-            $fileReader->read($key),
+            $fileReader->read($privateKey),
+            $fileReader->read($publicKey),
             $algorithm,
             // todo move it to config
             'localhost:8080',
         );
     },
-    Authenticator::class => static function (ContainerInterface $container): Authenticator {
-        ['publicKey' => $key, 'algorithm' => $algorithm] = $container->get('config')['auth'];
-
-        /** @var FilesystemReader $fileReader */
-        $fileReader = $container->get(FilesystemReader::class);
-
-        return new JwtAuthenticator(
-            new Key(
-                $fileReader->read($key),
-                $algorithm,
-            ),
-            $container->get(UserRepository::class),
-        );
-    },
+    Authenticator::class => static fn (ContainerInterface $container) => new JwtAuthenticator(
+        $container->get(JwtTokenManagerInterface::class),
+        $container->get(UserRepository::class),
+    ),
     AuthenticatedUser::class => static function (ContainerInterface $container) {
         /** @var Authenticator $authenticator */
         $authenticator = $container->get(Authenticator::class);

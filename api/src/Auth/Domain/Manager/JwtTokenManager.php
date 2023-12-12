@@ -10,5 +10,8 @@ interface JwtTokenManager
 {
     public function create(AuthenticatedUser $user): string;
 
-    // todo add decode
+    /**
+     * @return false|object{user_id: string}
+     */
+    public function decode(string $token): false|object;
 }

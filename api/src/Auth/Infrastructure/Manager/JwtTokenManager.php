@@ -9,11 +9,14 @@ use App\Shared\Domain\Entities\AuthenticatedUser;
 use DateInterval;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Throwable;
 
 final readonly class JwtTokenManager implements JwtTokenManagerInterface
 {
     public function __construct(
         private string $privateKey,
+        private string $publicKey,
         private string $algorithm,
         private string $issuer,
     ) {}
@@ -30,5 +33,14 @@ final readonly class JwtTokenManager implements JwtTokenManagerInterface
         ];
 
         return JWT::encode($token, $this->privateKey, $this->algorithm);
+    }
+
+    public function decode(string $token): false|object
+    {
+        try {
+            return JWT::decode($token, new Key($this->publicKey, $this->algorithm))->data;
+        } catch (Throwable) {
+            return false;
+        }
     }
 }
