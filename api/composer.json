@@ -7,9 +7,12 @@
   },
   "require": {
     "php": "^8.2",
+    "ext-openssl": "*",
     "doctrine/migrations": "^3.6",
     "doctrine/orm": "^2.16",
+    "firebase/php-jwt": "^6.9",
     "laminas/laminas-config-aggregator": "^1.13",
+    "league/flysystem": "^3.0",
     "monolog/monolog": "^3.4",
     "php-di/php-di": "^7.0",
     "ramsey/uuid": "^4.7",
@@ -17,6 +20,7 @@
     "slim/slim": "4.*",
     "symfony/cache": "^6.3",
     "symfony/console": "^6.3",
+    "symfony/validator": "^6.3",
     "vlucas/phpdotenv": "^5.5",
     "webmozart/assert": "^1.11"
   },
@@ -34,8 +38,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "App\\": "src/App/",
-      "UI\\": "src/UI/"
+      "App\\": "src/"
     }
   },
   "autoload-dev": {

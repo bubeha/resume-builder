@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Infrastructure\Persistence\Doctrine\Types\EmailType;
-use App\Infrastructure\Persistence\Doctrine\Types\UuidType;
+use App\Auth\Domain\Repository\UserRepository as UserRepositoryInterface;
+use App\Auth\Infrastructure\Repository\UserStore;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\DateTimeType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\EmailType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\HashedPasswordType;
+use App\Shared\Infrastructure\Persistence\Doctrine\Types\UuidType;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
@@ -48,11 +52,14 @@ return [
         foreach ($settings['types'] as $name => $class) {
             if (!Type::hasType($name)) {
                 Type::addType($name, $class);
+            } else {
+                Type::overrideType($name, $class);
             }
         }
 
         return new EntityManager($connection, $config);
     },
+    UserRepositoryInterface::class => static fn (ContainerInterface $container) => new UserStore($container->get(EntityManagerInterface::class)),
     'config' => [
         'doctrine' => [
             'devMode' => getenv('app_env') === 'prod',
@@ -61,7 +68,7 @@ return [
             'proxyDir' => __DIR__ . '/../../var/cache/doctrine/proxy',
 
             'metadataDirs' => [
-                __DIR__ . '/../../src/App/Domain/Entities',
+                __DIR__ . '/../../src/Shared/Domain/Entities',
             ],
 
             'connection' => [
@@ -77,6 +84,8 @@ return [
             'types' => [
                 UuidType::NAME => UuidType::class,
                 EmailType::NAME => EmailType::class,
+                DateTimeType::NAME => DateTimeType::class,
+                HashedPasswordType::NAME => HashedPasswordType::class,
             ],
         ],
     ],
